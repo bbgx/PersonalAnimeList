@@ -1,4 +1,5 @@
 ﻿using AnimeList.Interfaces;
+using AnimeList.Models.AnimeModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -16,7 +17,7 @@ namespace AnimeList.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AnimeModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
