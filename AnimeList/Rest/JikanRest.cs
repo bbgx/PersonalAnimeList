@@ -1,8 +1,8 @@
 ﻿using AnimeList.DTO;
 using AnimeList.Interfaces;
 using AnimeList.Models.AnimeModel;
+using Newtonsoft.Json;
 using System.Dynamic;
-using System.Text.Json;
 
 namespace AnimeList.Rest
 {
@@ -23,7 +23,7 @@ namespace AnimeList.Rest
                 var responseJinkan = await client.SendAsync(request);
                 var contentResponse = await responseJinkan.Content.ReadAsStringAsync();
                 Console.WriteLine(contentResponse);
-                var objResponse = JsonSerializer.Deserialize<AnimeModel>(contentResponse);
+                var objResponse = JsonConvert.DeserializeObject<AnimeModel>(contentResponse);
 
                 if (responseJinkan.IsSuccessStatusCode)
                 {
@@ -32,7 +32,7 @@ namespace AnimeList.Rest
                 } else
                 {
                     response.HttpCode = responseJinkan.StatusCode;
-                    response.ReturnError = JsonSerializer.Deserialize<ExpandoObject>(contentResponse);
+                    response.ReturnError = JsonConvert.DeserializeObject<ExpandoObject>(contentResponse);
                 }
             }
 
