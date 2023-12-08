@@ -25,7 +25,6 @@ namespace AnimeList.Services
         public async Task<GenericResponse<AnimeResponse>> SearchAnimeById(string animeId)
         {
             var anime = await _jikanService.SearchAnimeById(animeId);
-            Console.WriteLine($"Mapped AnimeResponse: {JsonConvert.SerializeObject(anime)}");
             return _mapper.Map<GenericResponse<AnimeResponse>>(anime);
         }
     }
