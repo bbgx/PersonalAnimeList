@@ -1,21 +1,21 @@
-using AnimeList.Interfaces;
-using AnimeList.Mappings;
-using AnimeList.Rest;
 using AnimeList.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<AnimeService>();
+
+var connectionString = builder.Configuration.GetConnectionString("Host=localhost;Port=5432;Pooling=true;Database=MOVIE_LIBRARY;User Id=postgres;Password=1234");
+builder.Services.AddDbContext<AnimeList.Data.AnimeDbContext>(options =>
+    options.UseNpgsql(connectionString));
+
+// Swagger/OpenAPI configuration
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddSingleton<IAnimeService, AnimeService>();
-builder.Services.AddSingleton<IJikanService, JikanRest>();
-
-builder.Services.AddAutoMapper(typeof(AnimeMapping));
 
 var app = builder.Build();
 

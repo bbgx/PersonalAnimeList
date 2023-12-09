@@ -1,31 +1,28 @@
-﻿using AnimeList.DTO;
-using AnimeList.Interfaces;
-using AnimeList.Models.AnimeModel;
-using AutoMapper;
+﻿using AnimeList.Models.AnimeModel;
 using Newtonsoft.Json;
+
 
 namespace AnimeList.Services
 {
-    public class AnimeService : IAnimeService
+    public class AnimeService
     {
-        private readonly IMapper _mapper;
-        private readonly IJikanService _jikanService;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public AnimeService(IMapper mapper, IJikanService jikanService)
+        public AnimeService(IHttpClientFactory httpClientFactory)
         {
-            _mapper = mapper;
-            _jikanService = jikanService;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public Task<GenericResponse<AnimeResponse>> GetAllAnimesByQuery(string query)
+        public async Task<AnimeModel> GetAnimeByIdAsync (int animeId)
         {
-            throw new NotImplementedException();
-        }
+            var client = _httpClientFactory.CreateClient();
 
-        public async Task<GenericResponse<AnimeResponse>> SearchAnimeById(string animeId)
-        {
-            var anime = await _jikanService.SearchAnimeById(animeId);
-            return _mapper.Map<GenericResponse<AnimeResponse>>(anime);
+            var response = await client.GetAsync($"https://api.jikan.moe/v4/anime/{animeId}/full");
+
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<AnimeModel>(content);
         }
     }
 }
