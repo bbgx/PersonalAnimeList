@@ -1,4 +1,4 @@
-﻿using AnimeList.Models.AnimeModel;
+﻿using AnimeICollection.Models.AnimeModel;
 using Newtonsoft.Json;
 
 

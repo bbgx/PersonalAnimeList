@@ -1,5 +1,5 @@
-﻿using AnimeList.Data;
-using AnimeList.Models.AnimeModel;
+﻿using AnimeICollection.Models.AnimeModel;
+using AnimeList.Data;
 using AnimeList.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,7 +34,7 @@ namespace AnimeList.Controllers
             var anime = await _animeService.GetAnimeByIdAsync(animeId);
             _dbContext.Animes.Add(anime);
             await _dbContext.SaveChangesAsync();
-            return Ok(anime);
+            return Ok(new AnimeModel());
         }
     }
 }
