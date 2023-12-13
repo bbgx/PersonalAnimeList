@@ -3,6 +3,7 @@ using System;
 using AnimeList.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnimeList.Migrations
 {
     [DbContext(typeof(AnimeDbContext))]
-    partial class AnimeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231212195200_AnimeModelFixedDatabase")]
+    partial class AnimeModelFixedDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,76 +34,100 @@ namespace AnimeList.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AgeRating")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "rating");
 
                     b.Property<DateTimeOffset?>("AiredFrom")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasAnnotation("Relational:JsonPropertyName", "aired.from");
 
                     b.Property<DateTimeOffset?>("AiredTo")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasAnnotation("Relational:JsonPropertyName", "aired.to");
 
                     b.Property<bool?>("Airing")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasAnnotation("Relational:JsonPropertyName", "airing");
 
                     b.Property<string>("AnimeCoverImage")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "images.jpg.large_image_url");
 
                     b.Property<string>("Background")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "background");
 
                     b.Property<string>("BroadcastedWeekDayAndTime")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "broadcast.string");
 
                     b.Property<string>("EpisodeDuration")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "duration");
 
                     b.Property<int>("Episodes")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "episodes");
 
                     b.Property<int>("MalId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "mal_id");
 
                     b.Property<string>("MediaOriginalSource")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "source");
 
                     b.Property<string>("MyAnimeListUrl")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "url");
 
                     b.Property<int?>("Rank")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "rank");
 
                     b.Property<double?>("Score")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasAnnotation("Relational:JsonPropertyName", "score");
 
                     b.Property<int?>("ScoredByUser")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "scored_by");
 
                     b.Property<string>("Season")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "season");
 
                     b.Property<string>("Status")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "status");
 
                     b.Property<string>("Synopsis")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "synopsis");
 
                     b.Property<string>("Title")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "title");
 
                     b.Property<string>("TitleEnglish")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "title_english");
 
                     b.Property<string>("TitleJapanese")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "title_japanese");
 
                     b.Property<string>("TrailerEmbedUrl")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "trailer.embed_url");
 
                     b.Property<string>("TrailerUrl")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "trailer.url");
 
                     b.Property<string>("TransmissionMedia")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "type");
 
                     b.HasKey("Id");
 
@@ -119,16 +146,20 @@ namespace AnimeList.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int?>("MalId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "mal_id");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AnimeModelId");
 
                     b.ToTable("Demographic");
+
+                    b.HasAnnotation("Relational:JsonPropertyName", "demographics");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Genre", b =>
@@ -143,19 +174,20 @@ namespace AnimeList.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int?>("MalId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "mal_id");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AnimeModelId");
 
                     b.ToTable("Genre");
+
+                    b.HasAnnotation("Relational:JsonPropertyName", "genres");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Licensor", b =>
@@ -170,16 +202,20 @@ namespace AnimeList.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int?>("MalId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "mal_id");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AnimeModelId");
 
                     b.ToTable("Licensor");
+
+                    b.HasAnnotation("Relational:JsonPropertyName", "licensors");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Producer", b =>
@@ -194,19 +230,24 @@ namespace AnimeList.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int?>("MalId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "mal_id");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "name");
 
                     b.Property<string>("Type")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "type");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AnimeModelId");
 
                     b.ToTable("Producer");
+
+                    b.HasAnnotation("Relational:JsonPropertyName", "producers");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Streaming", b =>
@@ -220,17 +261,17 @@ namespace AnimeList.Migrations
                     b.Property<int?>("AnimeModelId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
                     b.Property<string>("Url")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AnimeModelId");
 
                     b.ToTable("Streaming");
+
+                    b.HasAnnotation("Relational:JsonPropertyName", "streaming");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Studio", b =>
@@ -245,16 +286,20 @@ namespace AnimeList.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int?>("MalId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "mal_id");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AnimeModelId");
 
                     b.ToTable("Studio");
+
+                    b.HasAnnotation("Relational:JsonPropertyName", "studios");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Theme", b =>
@@ -269,16 +314,20 @@ namespace AnimeList.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int?>("MalId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "mal_id");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasAnnotation("Relational:JsonPropertyName", "name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AnimeModelId");
 
                     b.ToTable("Theme");
+
+                    b.HasAnnotation("Relational:JsonPropertyName", "themes");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Demographic", b =>

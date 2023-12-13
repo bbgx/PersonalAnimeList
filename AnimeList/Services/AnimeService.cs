@@ -1,5 +1,6 @@
 ﻿using AnimeICollection.Models.AnimeModel;
-using Newtonsoft.Json;
+using AnimeList.Models;
+using System.Text.Json;
 
 
 namespace AnimeList.Services
@@ -20,9 +21,10 @@ namespace AnimeList.Services
             var response = await client.GetAsync($"https://api.jikan.moe/v4/anime/{animeId}/full");
 
             response.EnsureSuccessStatusCode();
-
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(new AnimeModelConverter());
             var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<AnimeModel>(content);
+            return JsonSerializer.Deserialize<AnimeModel>(content, options);
         }
     }
 }
