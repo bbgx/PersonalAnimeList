@@ -11,16 +11,6 @@ namespace AnimeList.Data
         }
 
         public DbSet<AnimeModel> Animes { get; set; }
-        public DbSet<AnimeModel.Type> TransmissionMedia { get; set; }
-        public DbSet<Source> Source { get; set; }
-        public DbSet<PublishingStatus> PublishingStatus { get; set; }
-        public DbSet<Producer> Producers { get; set; }
-        public DbSet<Licensor> Licensors { get; set; }
-        public DbSet<Studio> Studios { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<Theme> Themes { get; set; }
-        public DbSet<Demographic> Demographics { get; set; }
-        public DbSet<Streaming> Streamings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
