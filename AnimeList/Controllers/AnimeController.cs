@@ -2,6 +2,7 @@
 using AnimeList.Data;
 using AnimeList.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace AnimeList.Controllers
 {
@@ -34,7 +35,7 @@ namespace AnimeList.Controllers
             var anime = await _animeService.GetAnimeByIdAsync(animeId);
             _dbContext.Animes.Add(anime);
             await _dbContext.SaveChangesAsync();
-            return Ok(new AnimeModel());
+            return Ok(anime);
         }
     }
 }
