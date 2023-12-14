@@ -75,7 +75,8 @@ namespace AnimeList.Models
                 animeModel.Episodes = data.GetProperty("episodes").GetInt16();
                 animeModel.Status = data.GetProperty("status").GetString();
                 animeModel.Airing = data.GetProperty("airing").GetBoolean();
-                animeModel.AiredFrom = aired.GetProperty("from").GetDateTimeOffset();
+                animeModel.AiredFrom = aired.GetProperty("from").SafeGetDateTimeOffset();
+                animeModel.AiredTo = aired.GetProperty("to").SafeGetDateTimeOffset();
                 animeModel.EpisodeDuration = data.GetProperty("duration").GetString();
                 animeModel.AgeRating = data.GetProperty("rating").GetString();
                 animeModel.Score = data.GetProperty("score").GetDouble();
@@ -95,10 +96,16 @@ namespace AnimeList.Models
             }
             return animeModel;
         }
-
         public override void Write(Utf8JsonWriter writer, AnimeModel value, JsonSerializerOptions options)
         {
             throw new NotImplementedException();
+        }
+    }
+    public static class JsonExtensions
+    {
+        public static DateTimeOffset? SafeGetDateTimeOffset(this JsonElement element)
+        {
+            return element.ValueKind != JsonValueKind.Null ? element.GetDateTimeOffset() : null;
         }
     }
 }
