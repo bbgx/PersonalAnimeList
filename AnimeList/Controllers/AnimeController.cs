@@ -33,8 +33,10 @@ namespace AnimeList.Controllers
         public async Task<IActionResult> GetAnimeById(int animeId)
         {
             var anime = await _animeService.GetAnimeByIdAsync(animeId);
-            _dbContext.Animes.Add(anime);
-            await _dbContext.SaveChangesAsync();
+            if (anime == null)
+            {
+                return NotFound();
+            }
             return Ok(anime);
         }
     }
