@@ -3,12 +3,9 @@ using AnimeList.Data;
 using AnimeList.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using System.Collections;
 using System.Reflection;
 using System.Text.Json;
-using System.Xml.Linq;
-
 
 namespace AnimeList.Services
 {
@@ -27,7 +24,15 @@ namespace AnimeList.Services
 
         public async Task<AnimeModel> GetAnimeByIdAsync (int animeId)
         {
-            var existingAnime = await _dbContext.Animes.FirstOrDefaultAsync(anime => anime.MalId == animeId);
+            var existingAnime = await _dbContext.Animes
+                .Include(p => p.MediaProducers)
+                .Include(p => p.MediaLicensors)
+                .Include(p => p.MediaStudios)
+                .Include(p => p.MediaGenres)
+                .Include(p => p.MediaThemes)
+                .Include(p => p.MediaDemographics)
+                .Include(p => p.StreamingWebsites)
+                .FirstOrDefaultAsync(anime => anime.MalId == animeId);
 
             var options = new JsonSerializerOptions();
             options.Converters.Add(new AnimeModelConverter());
@@ -45,13 +50,13 @@ namespace AnimeList.Services
                     await UpdateAnimeAsync(existingAnime, newAnimeData);
                 }
 
-                existingAnime.MediaProducers = await FetchAndAssociateEntities(newAnimeData.MediaProducers, x => x.MalId, "MalId");
-                existingAnime.MediaStudios = await FetchAndAssociateEntities(newAnimeData.MediaStudios, x => x.MalId, "MalId");
-                existingAnime.MediaLicensors = await FetchAndAssociateEntities(newAnimeData.MediaLicensors, x => x.MalId, "MalId");
-                existingAnime.MediaGenres = await FetchAndAssociateEntities(newAnimeData.MediaGenres, x => x.MalId, "MalId");
-                existingAnime.MediaThemes = await FetchAndAssociateEntities(newAnimeData.MediaThemes, x => x.MalId, "MalId");
-                existingAnime.MediaDemographics = await FetchAndAssociateEntities(newAnimeData.MediaDemographics, x => x.MalId, "MalId");
-                existingAnime.StreamingWebsites = await FetchAndAssociateEntities(newAnimeData.StreamingWebsites, x => x.Name, "Name");
+                existingAnime.MediaProducers = (List<AnimeModel.Producer>?)await FetchAndAssociateEntities(newAnimeData.MediaProducers, x => x.Name, "Name");
+                existingAnime.MediaStudios = (List<AnimeModel.Studio>?)await FetchAndAssociateEntities(newAnimeData.MediaStudios, x => x.MalId, "MalId");
+                existingAnime.MediaLicensors = (List<AnimeModel.Licensor>?)await FetchAndAssociateEntities(newAnimeData.MediaLicensors, x => x.MalId, "MalId");
+                existingAnime.MediaGenres = (List<AnimeModel.Genre>?)await FetchAndAssociateEntities(newAnimeData.MediaGenres, x => x.MalId, "MalId");
+                existingAnime.MediaThemes = (List<AnimeModel.Theme>?)await FetchAndAssociateEntities(newAnimeData.MediaThemes, x => x.MalId, "MalId");
+                existingAnime.MediaDemographics = (List<AnimeModel.Demographic>?)await FetchAndAssociateEntities(newAnimeData.MediaDemographics, x => x.MalId, "MalId");
+                existingAnime.StreamingWebsites = (List<AnimeModel.Streaming>?)await FetchAndAssociateEntities(newAnimeData.StreamingWebsites, x => x.Name, "Name");
 
                 return existingAnime;
             }

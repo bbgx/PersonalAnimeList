@@ -1,8 +1,9 @@
 ﻿using AnimeICollection.Models.AnimeModel;
 using AnimeList.Data;
+using AnimeList.DTO;
 using AnimeList.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace AnimeList.Controllers
 {
@@ -13,11 +14,13 @@ namespace AnimeList.Controllers
     {
         private readonly AnimeService _animeService;
         private readonly AnimeDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public AnimeController(AnimeService animeService, AnimeDbContext dbContext)
+        public AnimeController(AnimeService animeService, AnimeDbContext dbContext, IMapper mapper)
         {
             _animeService = animeService;
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -30,14 +33,14 @@ namespace AnimeList.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAnimeById(int animeId)
+        public async Task<ActionResult<AnimeModelDTO>> GetAnimeById(int animeId)
         {
             var anime = await _animeService.GetAnimeByIdAsync(animeId);
-            if (anime == null)
-            {
-                return NotFound();
-            }
-            return Ok(anime);
+            if (anime == null) return NotFound();
+
+            var animeDTO = _mapper.Map<AnimeModelDTO>(anime);
+
+            return Ok(animeDTO);
         }
     }
 }
