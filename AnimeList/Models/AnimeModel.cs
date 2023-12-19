@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using AnimeList.DTO;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -39,7 +40,7 @@ namespace AnimeICollection.Models.AnimeModel
         public string? Background { get; set; }
         public string? Season { get; set; }
         public string? BroadcastedWeekDayAndTime { get; set; }
-        public ICollection<Producer>? MediaProducers { get; set; }
+        public List<Producer>? MediaProducers { get; set; } = new();
         public partial class Producer
         {
             [Key]
@@ -47,24 +48,27 @@ namespace AnimeICollection.Models.AnimeModel
             public int? MalId { get; set; }
             public string? Type { get; set; }
             public string? Name { get; set; }
+            public List<AnimeModel> Animes { get; set; } = new();
         }
-        public ICollection<Licensor>? MediaLicensors { get; set; }
+        public List<Licensor>? MediaLicensors { get; set; } = new();
         public partial class Licensor
         {
             [Key]
             public int Id { get; set; }
             public int? MalId { get; set; }
             public string? Name { get; set; }
+            public List<AnimeModel> Animes { get; set; } = new();
         }
-        public ICollection<Studio>? MediaStudios { get; set; }
+        public List<Studio>? MediaStudios { get; set; } = new();
         public partial class Studio
         {
             [Key]
             public int Id { get; set; }
             public int? MalId { get; set; }
             public string? Name { get; set; }
+            public List<AnimeModel> Animes { get; set; } = new();
         }
-        public ICollection<Genre>? MediaGenres { get; set; }
+        public List<Genre>? MediaGenres { get; set; } = new();
         public partial class Genre
         {
             [Key]
@@ -72,30 +76,34 @@ namespace AnimeICollection.Models.AnimeModel
             public int? MalId { get; set; }
             public string? Type { get; set; }
             public string? Name { get; set; }
+            public List<AnimeModel> Animes { get; set; } = new();
         }
-        public ICollection<Theme>? MediaThemes { get; set; }
+        public List<Theme>? MediaThemes { get; set; } = new();
         public partial class Theme
         {
             [Key]
             public int Id { get; set; }
             public int? MalId { get; set; }
             public string? Name { get; set; }
+            public List<AnimeModel> Animes { get; set; } = new();
         }
-        public ICollection<Demographic>? MediaDemographics { get; set; }
+        public List<Demographic>? MediaDemographics { get; set; } = new();
         public partial class Demographic
         {
             [Key]
             public int Id { get; set; }
             public int? MalId { get; set; }
             public string? Name { get; set; }
+            public List<AnimeModel> Animes { get; set; } = new();
         }
-        public ICollection<Streaming>? StreamingWebsites { get; set; }
+        public List<Streaming>? StreamingWebsites { get; set; } = new();
         public partial class Streaming
         {
             [Key]
             public int Id { get; set; }
             public string? Name { get; set; }
             public string? Url { get; set; }
+            public List<AnimeModel> Animes { get; set; } = new();
         }
     }
 }

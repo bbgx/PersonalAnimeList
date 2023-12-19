@@ -3,6 +3,7 @@ using System;
 using AnimeList.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnimeList.Migrations
 {
     [DbContext(typeof(AnimeDbContext))]
-    partial class AnimeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231219011612_AddAnimeProducerJoinTable")]
+    partial class AddAnimeProducerJoinTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,7 +107,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Anime", (string)null);
+                    b.ToTable("Anime");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Demographic", b =>
@@ -115,6 +118,9 @@ namespace AnimeList.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AnimeModelId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("MalId")
                         .HasColumnType("integer");
 
@@ -123,7 +129,9 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Demographic", (string)null);
+                    b.HasIndex("AnimeModelId");
+
+                    b.ToTable("Demographic");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Genre", b =>
@@ -133,6 +141,9 @@ namespace AnimeList.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AnimeModelId")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("MalId")
                         .HasColumnType("integer");
@@ -145,7 +156,9 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genre", (string)null);
+                    b.HasIndex("AnimeModelId");
+
+                    b.ToTable("Genre");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Licensor", b =>
@@ -156,6 +169,9 @@ namespace AnimeList.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AnimeModelId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("MalId")
                         .HasColumnType("integer");
 
@@ -164,7 +180,9 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Licensor", (string)null);
+                    b.HasIndex("AnimeModelId");
+
+                    b.ToTable("Licensor");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Producer", b =>
@@ -186,7 +204,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Producer", (string)null);
+                    b.ToTable("Producer");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Streaming", b =>
@@ -197,6 +215,9 @@ namespace AnimeList.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AnimeModelId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -205,7 +226,9 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Streaming", (string)null);
+                    b.HasIndex("AnimeModelId");
+
+                    b.ToTable("Streaming");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Studio", b =>
@@ -216,6 +239,9 @@ namespace AnimeList.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AnimeModelId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("MalId")
                         .HasColumnType("integer");
 
@@ -224,7 +250,9 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Studio", (string)null);
+                    b.HasIndex("AnimeModelId");
+
+                    b.ToTable("Studio");
                 });
 
             modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Theme", b =>
@@ -235,6 +263,9 @@ namespace AnimeList.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AnimeModelId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("MalId")
                         .HasColumnType("integer");
 
@@ -243,52 +274,9 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Theme", (string)null);
-                });
+                    b.HasIndex("AnimeModelId");
 
-            modelBuilder.Entity("AnimeModelDemographic", b =>
-                {
-                    b.Property<int>("AnimesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MediaDemographicsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AnimesId", "MediaDemographicsId");
-
-                    b.HasIndex("MediaDemographicsId");
-
-                    b.ToTable("AnimeModelDemographic", (string)null);
-                });
-
-            modelBuilder.Entity("AnimeModelGenre", b =>
-                {
-                    b.Property<int>("AnimesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MediaGenresId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AnimesId", "MediaGenresId");
-
-                    b.HasIndex("MediaGenresId");
-
-                    b.ToTable("AnimeModelGenre", (string)null);
-                });
-
-            modelBuilder.Entity("AnimeModelLicensor", b =>
-                {
-                    b.Property<int>("AnimesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MediaLicensorsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AnimesId", "MediaLicensorsId");
-
-                    b.HasIndex("MediaLicensorsId");
-
-                    b.ToTable("AnimeModelLicensor", (string)null);
+                    b.ToTable("Theme");
                 });
 
             modelBuilder.Entity("AnimeModelProducer", b =>
@@ -303,97 +291,49 @@ namespace AnimeList.Migrations
 
                     b.HasIndex("MediaProducersId");
 
-                    b.ToTable("AnimeModelProducer", (string)null);
+                    b.ToTable("AnimeModelProducer");
                 });
 
-            modelBuilder.Entity("AnimeModelStreaming", b =>
-                {
-                    b.Property<int>("AnimesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("StreamingWebsitesId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AnimesId", "StreamingWebsitesId");
-
-                    b.HasIndex("StreamingWebsitesId");
-
-                    b.ToTable("AnimeModelStreaming", (string)null);
-                });
-
-            modelBuilder.Entity("AnimeModelStudio", b =>
-                {
-                    b.Property<int>("AnimesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MediaStudiosId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AnimesId", "MediaStudiosId");
-
-                    b.HasIndex("MediaStudiosId");
-
-                    b.ToTable("AnimeModelStudio", (string)null);
-                });
-
-            modelBuilder.Entity("AnimeModelTheme", b =>
-                {
-                    b.Property<int>("AnimesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MediaThemesId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AnimesId", "MediaThemesId");
-
-                    b.HasIndex("MediaThemesId");
-
-                    b.ToTable("AnimeModelTheme", (string)null);
-                });
-
-            modelBuilder.Entity("AnimeModelDemographic", b =>
+            modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Demographic", b =>
                 {
                     b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel", null)
-                        .WithMany()
-                        .HasForeignKey("AnimesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel+Demographic", null)
-                        .WithMany()
-                        .HasForeignKey("MediaDemographicsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("MediaDemographics")
+                        .HasForeignKey("AnimeModelId");
                 });
 
-            modelBuilder.Entity("AnimeModelGenre", b =>
+            modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Genre", b =>
                 {
                     b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel", null)
-                        .WithMany()
-                        .HasForeignKey("AnimesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel+Genre", null)
-                        .WithMany()
-                        .HasForeignKey("MediaGenresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("MediaGenres")
+                        .HasForeignKey("AnimeModelId");
                 });
 
-            modelBuilder.Entity("AnimeModelLicensor", b =>
+            modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Licensor", b =>
                 {
                     b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel", null)
-                        .WithMany()
-                        .HasForeignKey("AnimesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("MediaLicensors")
+                        .HasForeignKey("AnimeModelId");
+                });
 
-                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel+Licensor", null)
-                        .WithMany()
-                        .HasForeignKey("MediaLicensorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Streaming", b =>
+                {
+                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel", null)
+                        .WithMany("StreamingWebsites")
+                        .HasForeignKey("AnimeModelId");
+                });
+
+            modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Studio", b =>
+                {
+                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel", null)
+                        .WithMany("MediaStudios")
+                        .HasForeignKey("AnimeModelId");
+                });
+
+            modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel+Theme", b =>
+                {
+                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel", null)
+                        .WithMany("MediaThemes")
+                        .HasForeignKey("AnimeModelId");
                 });
 
             modelBuilder.Entity("AnimeModelProducer", b =>
@@ -411,49 +351,19 @@ namespace AnimeList.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AnimeModelStreaming", b =>
+            modelBuilder.Entity("AnimeICollection.Models.AnimeModel.AnimeModel", b =>
                 {
-                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel", null)
-                        .WithMany()
-                        .HasForeignKey("AnimesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("MediaDemographics");
 
-                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel+Streaming", null)
-                        .WithMany()
-                        .HasForeignKey("StreamingWebsitesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                    b.Navigation("MediaGenres");
 
-            modelBuilder.Entity("AnimeModelStudio", b =>
-                {
-                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel", null)
-                        .WithMany()
-                        .HasForeignKey("AnimesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("MediaLicensors");
 
-                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel+Studio", null)
-                        .WithMany()
-                        .HasForeignKey("MediaStudiosId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                    b.Navigation("MediaStudios");
 
-            modelBuilder.Entity("AnimeModelTheme", b =>
-                {
-                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel", null)
-                        .WithMany()
-                        .HasForeignKey("AnimesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("MediaThemes");
 
-                    b.HasOne("AnimeICollection.Models.AnimeModel.AnimeModel+Theme", null)
-                        .WithMany()
-                        .HasForeignKey("MediaThemesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("StreamingWebsites");
                 });
 #pragma warning restore 612, 618
         }
