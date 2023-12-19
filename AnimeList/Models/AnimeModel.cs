@@ -1,11 +1,5 @@
-﻿using AnimeList.DTO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Globalization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace AnimeICollection.Models.AnimeModel
 {
