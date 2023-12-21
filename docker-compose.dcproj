@@ -7,7 +7,7 @@
     <ProjectGuid>784a6494-a35c-4544-8be2-726210161cd7</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/weatherforecast</DockerServiceUrl>
-    <DockerServiceName>animelist</DockerServiceName>
+    <DockerServiceName>animeList</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

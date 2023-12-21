@@ -19,6 +19,11 @@ ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./AnimeList.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
-WORKDIR /app
 COPY --from=publish /app/publish .
+
+COPY ["DevKey/certificate.pfx", "/https/certificate.pfx"]
+
+ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/certificate.pfx
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password=1234
+
 ENTRYPOINT ["dotnet", "AnimeList.dll"]

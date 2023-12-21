@@ -6,15 +6,20 @@ namespace AnimeList.Data
 {
     public class AnimeDbContext : DbContext
     {
-        public AnimeDbContext(DbContextOptions<AnimeDbContext> options) : base(options)
+        private readonly IConfiguration _configuration;
+
+        public AnimeDbContext(DbContextOptions<AnimeDbContext> options, IConfiguration configuration) : base(options)
         {
+            _configuration = configuration;
         }
 
         public DbSet<AnimeModel> Animes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Pooling=true;Database=ANIME_LIBRARY;User Id=postgres;Password=1234");
+            var connectionString = _configuration.GetConnectionString("DevConnection");
+
+            optionsBuilder.UseNpgsql(connectionString);
         }
     }
 }
