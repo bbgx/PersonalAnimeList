@@ -1,10 +1,8 @@
-﻿using AnimeICollection.Models.AnimeModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AnimeList.DTO
 {
-    public class AnimeModelDTO
+    public class BaseAnimeModelDTO
     {
         [Key]
         public int Id { get; set; }
@@ -25,9 +23,9 @@ namespace AnimeList.DTO
         public DateTimeOffset? AiredTo { get; set; }
         public string? EpisodeDuration { get; set; }
         public string? AgeRating { get; set; }
-        public double? Score { get; set; }
-        public int? ScoredByUser { get; set; }
-        public int? Rank { get; set; }
+        public string? Score { get; set; }
+        public string? ScoredByUser { get; set; }
+        public string? Rank { get; set; }
         public string? Synopsis { get; set; }
         public string? Background { get; set; }
         public string? Season { get; set; }
