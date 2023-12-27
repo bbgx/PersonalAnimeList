@@ -75,6 +75,70 @@ namespace AnimeList.Services
             }
         }
 
+        public async Task<AnimeSearchModel> GetAnimeWithParametersAsync(AnimeQueryParameters parameters)
+        {
+            var queryString = parameters.ToQueryString();
+            var url = $"https://api.jikan.moe/v4/anime?{queryString}";
+
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetAsync(url);
+
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+            options.Converters.Add(new AnimeSearchModelConverter(_mapper));
+            var animeResponse = JsonSerializer.Deserialize<AnimeSearchModel>(content, options);
+            
+            return animeResponse;
+
+        }
+
+        public class AnimeQueryParameters
+        {
+            public int? Page { get; set; }
+            public int? Limit { get; set; }
+            public string? Q { get; set; }
+            public string? Type { get; set; }
+            public string? Status { get; set; }
+            public List<string> Genres { get; set; } = new List<string>();
+            public string? OrderBy { get; set; }
+            public string? Sort { get; set; }
+            public string? Letter { get; set; }
+            public List<int> Producers { get; set; } = new List<int>();
+
+            public string ToQueryString()
+            {
+                var query = System.Web.HttpUtility.ParseQueryString(string.Empty);
+                if (Page.HasValue)
+                    query["page"] = Page.Value.ToString();
+                if (Limit.HasValue)
+                    query["limit"] = Limit.Value.ToString();
+                if (!string.IsNullOrEmpty(Q))
+                    query["q"] = Q;
+                if (!string.IsNullOrEmpty(Type))
+                    query["type"] = Type;
+                if (!string.IsNullOrEmpty(Status))
+                    query["status"] = Status;
+                if (Genres != null && Genres.Any())
+                    query["genres"] = string.Join(",", Genres);
+                if (!string.IsNullOrEmpty(OrderBy))
+                    query["order_by"] = OrderBy;
+                if (!string.IsNullOrEmpty(Sort))
+                    query["sort"] = Sort;
+                if (!string.IsNullOrEmpty(Letter))
+                    query["letter"] = Letter;
+                if (Producers != null && Producers.Any())
+                    query["producers"] = string.Join(",", Producers);
+
+                return query.ToString();
+            }
+        }
+
         private async Task UpdateAnimeAsync(AnimeModel existingAnime, AnimeModel newAnimeData)
         {
             _mapper.Map(newAnimeData, existingAnime);
