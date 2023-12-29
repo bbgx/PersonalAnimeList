@@ -1,6 +1,7 @@
 using AnimeICollection.Models.AnimeModel;
 using AnimeList.DTO;
 using AnimeList.Mapping;
+using AnimeList.Middlewares;
 using AnimeList.Models;
 using AnimeList.Services;
 using AutoMapper;
@@ -25,6 +26,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
