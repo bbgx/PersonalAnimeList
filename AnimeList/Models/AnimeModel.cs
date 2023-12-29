@@ -1,4 +1,5 @@
-﻿using AnimeList.Models;
+﻿using AnimeList.DTO;
+using AnimeList.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

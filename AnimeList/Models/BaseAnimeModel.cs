@@ -6,6 +6,7 @@ namespace AnimeList.Models
 {
     public class BaseAnimeModel
     {
+        public int Id { get; set; }
         public int MalId { get; set; }
         public string? MyAnimeListUrl { get; set; }
         public string? AnimeCoverImage { get; set; }

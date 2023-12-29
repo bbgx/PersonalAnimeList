@@ -4,7 +4,6 @@ namespace AnimeList.DTO
 {
     public class BaseAnimeModelDTO
     {
-        [Key]
         public int Id { get; set; }
         public int MalId { get; set; }
         public string? MyAnimeListUrl { get; set; }
