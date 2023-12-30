@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<AnimeService>();
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddAutoMapper(typeof(AnimeProfile));
 var config = new MapperConfiguration(cfg => {
     cfg.CreateMap<BaseAnimeModel, BaseAnimeModelDTO>();
@@ -43,7 +44,6 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while applying database migrations. Ensure the database is accessible and the connection string is correct. Migrations may also fail if there are schema conflicts or if required permissions are missing. Review the exception details for more information.");
     }
 }
-
 
 if (app.Environment.IsDevelopment())
 {

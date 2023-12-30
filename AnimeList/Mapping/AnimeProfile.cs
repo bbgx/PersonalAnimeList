@@ -33,13 +33,11 @@ namespace AnimeList.Mapping
             }
             catch (AutoMapperMappingException ex)
             {
-                // Log details of the exception
                 Console.WriteLine(ex.Message);
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine(ex.InnerException.Message);
                 }
-                // Consider logging the problematic object or other context if possible
             }
         }
     }

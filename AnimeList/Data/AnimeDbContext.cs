@@ -1,6 +1,6 @@
 ﻿using AnimeICollection.Models.AnimeModel;
+using AnimeList.Models;
 using Microsoft.EntityFrameworkCore;
-using static AnimeICollection.Models.AnimeModel.AnimeModel;
 
 namespace AnimeList.Data
 {
@@ -14,6 +14,7 @@ namespace AnimeList.Data
         }
 
         public DbSet<AnimeModel> Animes { get; set; }
+        public DbSet<UserModel> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
