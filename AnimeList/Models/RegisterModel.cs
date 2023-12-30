@@ -1,9 +1,14 @@
-﻿namespace AnimeList.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AnimeList.Models
 {
     public class RegisterModel
     {
+        [Required]
         public string Username { get; set; }
+        [Required]
         public string Email { get; set; }
-        public string Password { get; set; } = string.Empty;
+        [Required]
+        public string Password { get; set; }
     }
 }
