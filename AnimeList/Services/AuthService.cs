@@ -12,7 +12,7 @@ namespace AnimeList.Services
     public class AuthService
     {
         private readonly AnimeDbContext _dbContext;
-        int twoThirdsProcessors = Math.Max(1, (Environment.ProcessorCount * 2) / 3);
+        private readonly int _twoThirdsProcessors = Math.Max(1, (Environment.ProcessorCount * 2) / 3);
 
         public AuthService(AnimeDbContext dbContext)
         {
@@ -21,14 +21,7 @@ namespace AnimeList.Services
 
         public string HashPassword(string password, byte[] salt)
         {
-            using var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password));
-
-            argon2.Salt = salt;
-            argon2.DegreeOfParallelism = twoThirdsProcessors;
-            argon2.MemorySize = 1024 * 128;
-            argon2.Iterations = 4;
-
-            return Convert.ToBase64String(argon2.GetBytes(32));
+            return Convert.ToBase64String(GetArgon2Hash(password, salt));
         }
 
         public async Task<UserModel?> AuthenticateUser(LoginRequestDTO loginRequest)
@@ -49,21 +42,21 @@ namespace AnimeList.Services
 
         private bool VerifyPassword(string password, string hashedPassword, byte[] salt) 
         {
-            byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-            byte[] hashBytes;
-
-            using (var argon2 = new Argon2id(passwordBytes))
-            {
-                argon2.Salt = salt;
-                argon2.DegreeOfParallelism = twoThirdsProcessors;
-                argon2.MemorySize = 1024 * 128;
-                argon2.Iterations = 4;
-
-                hashBytes = argon2.GetBytes(32);
-            };
-            string newHash = Convert.ToBase64String(hashBytes);
-
+            var newHash = HashPassword(password, salt);
             return hashedPassword == newHash;
+        }
+
+        private byte[] GetArgon2Hash(string password, byte[] salt)
+        {
+            using var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password))
+            {
+                Salt = salt,
+                DegreeOfParallelism = _twoThirdsProcessors,
+                MemorySize = 1024 * 128,
+                Iterations = 4
+            };
+
+            return argon2.GetBytes(32);
         }
 
         public byte[] CreateRandomSalt()
