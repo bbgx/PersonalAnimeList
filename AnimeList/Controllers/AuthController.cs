@@ -3,6 +3,7 @@ using AnimeList.DTO;
 using AnimeList.Models;
 using AnimeList.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AnimeList.Controllers
 {
@@ -22,9 +23,17 @@ namespace AnimeList.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterModel model)
         {
+            var existingUser = await _dbContext.Users
+                .AnyAsync(u => u.Username == model.Username || u.Email == model.Email);
+
+            if (existingUser)
+            {
+                return BadRequest("Username or email already in use.");
+            }
+
             var salt = _authService.CreateRandomSalt();
             var hashedPassword = _authService.HashPassword(model.Password, salt);
-
+            
             var user = new UserModel
             {
                 Username = model.Username,
@@ -42,6 +51,14 @@ namespace AnimeList.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestDTO loginRequest)
         {
+            var getUser = await _dbContext.Users
+                .SingleOrDefaultAsync(u => u.Username == loginRequest.Username);
+
+            if (getUser == null)
+            {
+                return Unauthorized("Invalid username or password.");
+            }
+
             var user = await _authService.AuthenticateUser(loginRequest);
 
             if (user != null) 

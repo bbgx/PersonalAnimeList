@@ -27,7 +27,7 @@ namespace AnimeList.Services
         public async Task<UserModel?> AuthenticateUser(LoginRequestDTO loginRequest)
         {
             var user = await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Username == loginRequest.Username);
+                .SingleOrDefaultAsync(u => u.Username == loginRequest.Username);
 
             if (user != null) 
             {
