@@ -12,5 +12,6 @@ namespace AnimeList.Models
         public string Email { get; set; }
         public string HashedPassword { get; set; }
         public byte[] Salt { get; set; }
+        public string Role { get; set; } = "user";
     }
 }
