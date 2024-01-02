@@ -4,6 +4,7 @@ using AnimeList.DTO;
 using AnimeList.Models;
 using AnimeList.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static AnimeList.Services.AnimeService;
 
@@ -24,6 +25,7 @@ namespace AnimeList.Controllers
         }
 
         [HttpGet("{animeId}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseAnimeModelDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<BaseAnimeModelDTO>> GetAnimeById(int animeId)
@@ -36,6 +38,7 @@ namespace AnimeList.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AnimeSearchModel>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<List<AnimeSearchModel>>> GetAnimeByQuery([FromQuery] AnimeQueryParameters queryParams)
