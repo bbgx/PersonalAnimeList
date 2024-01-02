@@ -30,19 +30,8 @@ namespace AnimeList.Middlewares
 
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var code = StatusCodes.Status500InternalServerError;
-            var result = string.Empty;
-
-            switch (exception)
-            {
-                case HttpRequestException httpEx:
-                    code = (int)httpEx.StatusCode;
-                    result = JsonSerializer.Serialize(new { message = httpEx.Message });
-                    break;
-                default:
-                    result = JsonSerializer.Serialize(new { message = exception.Message });
-                    break;
-            }
+            var code = StatusCodes.Status500InternalServerError; // Default to 500 server error
+            var result = JsonSerializer.Serialize(new { message = exception.Message });
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = code;
