@@ -5,12 +5,16 @@ using AnimeList.Middlewares;
 using AnimeList.Models;
 using AnimeList.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
+builder.Services.AddSingleton<TokenService>();
 builder.Services.AddScoped<AnimeService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddAutoMapper(typeof(AnimeProfile));
@@ -25,6 +29,19 @@ builder.Services.AddDbContext<AnimeList.Data.AnimeDbContext>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["JwtKey"]))
+        };
+    });
 
 var app = builder.Build();
 

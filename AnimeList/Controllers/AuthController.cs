@@ -13,11 +13,13 @@ namespace AnimeList.Controllers
     {
         private readonly AuthService _authService;
         private readonly AnimeDbContext _dbContext;
+        private readonly TokenService _tokenService;
 
-        public AuthController(AuthService authService, AnimeDbContext dbContext)
+        public AuthController(AuthService authService, AnimeDbContext dbContext, TokenService tokenService)
         {
             _authService = authService;
             _dbContext = dbContext;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -63,7 +65,8 @@ namespace AnimeList.Controllers
 
             if (user != null) 
             {
-                return Ok(new { message = "Login sucessful" });
+                var token = _tokenService.GenerateToken(user);
+                return Ok(new { token });
             };
 
             return Unauthorized("Invalid username or password");
