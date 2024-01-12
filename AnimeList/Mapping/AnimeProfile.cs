@@ -13,6 +13,7 @@ namespace AnimeList.Mapping
             try
             {
                 CreateMap<AnimeModel, BaseAnimeModelDTO>();
+                CreateMap<BaseAnimeModel, BaseAnimeModelDTO>();
                 CreateMap<BaseAnimeModel, BaseAnimeModel>()
                     .ForMember(dest => dest.MediaProducers, opt => opt.Ignore())
                     .ForMember(dest => dest.MediaLicensors, opt => opt.Ignore())
@@ -21,8 +22,8 @@ namespace AnimeList.Mapping
                     .ForMember(dest => dest.MediaThemes, opt => opt.Ignore())
                     .ForMember(dest => dest.MediaDemographics, opt => opt.Ignore())
                     .ForMember(dest => dest.StreamingWebsites, opt => opt.Ignore());
-                CreateMap<AnimeSearchModel, BaseAnimeModelDTO>()
-                    .ForMember(dest => dest.Id, opt => opt.Ignore());
+                //CreateMap<AnimeSearchModel, BaseAnimeModelDTO>()
+                //    .ForMember(dest => dest.Id, opt => opt.Ignore());
                 CreateMap<Models.BaseAnimeModel.Producer, ProducerDTO>();
                 CreateMap<Models.BaseAnimeModel.Licensor, LicensorDTO>();
                 CreateMap<Models.BaseAnimeModel.Studio, StudioDTO>();
