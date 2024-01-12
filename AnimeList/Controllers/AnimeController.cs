@@ -25,7 +25,6 @@ namespace AnimeList.Controllers
         }
 
         [HttpGet("{animeId}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaseAnimeModelDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<BaseAnimeModelDTO>> GetAnimeById(int animeId)
@@ -38,7 +37,6 @@ namespace AnimeList.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<AnimeSearchModel>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<List<AnimeSearchModel>>> GetAnimeByQuery([FromQuery] AnimeQueryParameters queryParams)
