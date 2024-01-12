@@ -117,7 +117,9 @@ namespace AnimeList.Models
             model.TitleJapanese = data.GetProperty("title_japanese").GetString();
             model.TransmissionMedia = data.GetProperty("type").GetString();
             model.MediaOriginalSource = data.GetProperty("source").GetString();
-            model.Episodes = data.GetProperty("episodes").GetInt16();
+            model.Episodes = data.TryGetProperty("episodes", out JsonElement episodeElement) && episodeElement.ValueKind == JsonValueKind.Number
+             ? episodeElement.GetInt16().ToString()
+             : "N/A";
             model.Status = data.GetProperty("status").GetString();
             model.Airing = data.GetProperty("airing").GetBoolean();
             model.AiredFrom = aired.GetProperty("from").SafeGetDateTimeOffset();

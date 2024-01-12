@@ -4,7 +4,6 @@ namespace AnimeList.DTO
 {
     public class BaseAnimeModelDTO
     {
-        public int Id { get; set; }
         public int MalId { get; set; }
         public string? MyAnimeListUrl { get; set; }
         public string? AnimeCoverImage { get; set; }
@@ -15,7 +14,7 @@ namespace AnimeList.DTO
         public string? TitleJapanese { get; set; }
         public string? TransmissionMedia { get; set; }
         public string? MediaOriginalSource { get; set; }
-        public int Episodes { get; set; }
+        public string Episodes { get; set; }
         public string? Status { get; set; }
         public bool? Airing { get; set; }
         public DateTimeOffset? AiredFrom { get; set; }

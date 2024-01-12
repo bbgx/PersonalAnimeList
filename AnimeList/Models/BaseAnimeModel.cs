@@ -17,7 +17,7 @@ namespace AnimeList.Models
         public string? TitleJapanese { get; set; }
         public string? TransmissionMedia { get; set; }
         public string? MediaOriginalSource { get; set; }
-        public int Episodes { get; set; }
+        public string Episodes { get; set; }
         public string? Status { get; set; }
         public bool? Airing { get; set; }
         public DateTimeOffset? AiredFrom { get; set; }
