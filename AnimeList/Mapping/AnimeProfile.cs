@@ -22,8 +22,6 @@ namespace AnimeList.Mapping
                     .ForMember(dest => dest.MediaThemes, opt => opt.Ignore())
                     .ForMember(dest => dest.MediaDemographics, opt => opt.Ignore())
                     .ForMember(dest => dest.StreamingWebsites, opt => opt.Ignore());
-                //CreateMap<AnimeSearchModel, BaseAnimeModelDTO>()
-                //    .ForMember(dest => dest.Id, opt => opt.Ignore());
                 CreateMap<Models.BaseAnimeModel.Producer, ProducerDTO>();
                 CreateMap<Models.BaseAnimeModel.Licensor, LicensorDTO>();
                 CreateMap<Models.BaseAnimeModel.Studio, StudioDTO>();
@@ -31,6 +29,9 @@ namespace AnimeList.Mapping
                 CreateMap<Models.BaseAnimeModel.Theme, ThemeDTO>();
                 CreateMap<Models.BaseAnimeModel.Demographic, DemographicDTO>();
                 CreateMap<Models.BaseAnimeModel.Streaming, StreamingDTO>();
+                CreateMap<CharacterModel, CharacterDTO>()
+                    .ForMember(dest => dest.VoiceActors, opt => opt.MapFrom(src => src.VoiceActors));
+                CreateMap<CharacterModel.VoiceActor, VoiceActorDTO>();
             }
             catch (AutoMapperMappingException ex)
             {

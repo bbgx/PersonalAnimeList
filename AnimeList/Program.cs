@@ -18,6 +18,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddScoped<AnimeService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<CharacterService>();
 builder.Services.AddAutoMapper(typeof(AnimeProfile));
 var config = new MapperConfiguration(cfg =>
 {

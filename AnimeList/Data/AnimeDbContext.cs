@@ -15,6 +15,7 @@ namespace AnimeList.Data
 
         public DbSet<AnimeModel> Animes { get; set; }
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<CharacterModel> Characters { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
