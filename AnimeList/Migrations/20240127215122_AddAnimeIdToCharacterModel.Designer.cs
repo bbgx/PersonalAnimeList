@@ -3,6 +3,7 @@ using System;
 using AnimeList.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnimeList.Migrations
 {
     [DbContext(typeof(AnimeDbContext))]
-    partial class AnimeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240127215122_AddAnimeIdToCharacterModel")]
+    partial class AddAnimeIdToCharacterModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,7 +108,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Anime", (string)null);
+                    b.ToTable("Anime");
                 });
 
             modelBuilder.Entity("AnimeList.Models.BaseAnimeModel+Demographic", b =>
@@ -124,7 +127,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Demographic", (string)null);
+                    b.ToTable("Demographic");
                 });
 
             modelBuilder.Entity("AnimeList.Models.BaseAnimeModel+Genre", b =>
@@ -146,7 +149,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genre", (string)null);
+                    b.ToTable("Genre");
                 });
 
             modelBuilder.Entity("AnimeList.Models.BaseAnimeModel+Licensor", b =>
@@ -165,7 +168,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Licensor", (string)null);
+                    b.ToTable("Licensor");
                 });
 
             modelBuilder.Entity("AnimeList.Models.BaseAnimeModel+Producer", b =>
@@ -187,7 +190,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Producer", (string)null);
+                    b.ToTable("Producer");
                 });
 
             modelBuilder.Entity("AnimeList.Models.BaseAnimeModel+Streaming", b =>
@@ -206,7 +209,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Streaming", (string)null);
+                    b.ToTable("Streaming");
                 });
 
             modelBuilder.Entity("AnimeList.Models.BaseAnimeModel+Studio", b =>
@@ -225,7 +228,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Studio", (string)null);
+                    b.ToTable("Studio");
                 });
 
             modelBuilder.Entity("AnimeList.Models.BaseAnimeModel+Theme", b =>
@@ -244,7 +247,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Theme", (string)null);
+                    b.ToTable("Theme");
                 });
 
             modelBuilder.Entity("AnimeList.Models.CharacterModel", b =>
@@ -274,7 +277,7 @@ namespace AnimeList.Migrations
 
                     b.HasIndex("AnimeId");
 
-                    b.ToTable("Characters", (string)null);
+                    b.ToTable("Characters");
                 });
 
             modelBuilder.Entity("AnimeList.Models.CharacterModel+VoiceActor", b =>
@@ -299,7 +302,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VoiceActor", (string)null);
+                    b.ToTable("VoiceActor");
                 });
 
             modelBuilder.Entity("AnimeList.Models.UserModel", b =>
@@ -332,7 +335,7 @@ namespace AnimeList.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("AnimeModelDemographic", b =>
@@ -347,7 +350,7 @@ namespace AnimeList.Migrations
 
                     b.HasIndex("MediaDemographicsId");
 
-                    b.ToTable("AnimeModelDemographic", (string)null);
+                    b.ToTable("AnimeModelDemographic");
                 });
 
             modelBuilder.Entity("AnimeModelGenre", b =>
@@ -362,7 +365,7 @@ namespace AnimeList.Migrations
 
                     b.HasIndex("MediaGenresId");
 
-                    b.ToTable("AnimeModelGenre", (string)null);
+                    b.ToTable("AnimeModelGenre");
                 });
 
             modelBuilder.Entity("AnimeModelLicensor", b =>
@@ -377,7 +380,7 @@ namespace AnimeList.Migrations
 
                     b.HasIndex("MediaLicensorsId");
 
-                    b.ToTable("AnimeModelLicensor", (string)null);
+                    b.ToTable("AnimeModelLicensor");
                 });
 
             modelBuilder.Entity("AnimeModelProducer", b =>
@@ -392,7 +395,7 @@ namespace AnimeList.Migrations
 
                     b.HasIndex("MediaProducersId");
 
-                    b.ToTable("AnimeModelProducer", (string)null);
+                    b.ToTable("AnimeModelProducer");
                 });
 
             modelBuilder.Entity("AnimeModelStreaming", b =>
@@ -407,7 +410,7 @@ namespace AnimeList.Migrations
 
                     b.HasIndex("StreamingWebsitesId");
 
-                    b.ToTable("AnimeModelStreaming", (string)null);
+                    b.ToTable("AnimeModelStreaming");
                 });
 
             modelBuilder.Entity("AnimeModelStudio", b =>
@@ -422,7 +425,7 @@ namespace AnimeList.Migrations
 
                     b.HasIndex("MediaStudiosId");
 
-                    b.ToTable("AnimeModelStudio", (string)null);
+                    b.ToTable("AnimeModelStudio");
                 });
 
             modelBuilder.Entity("AnimeModelTheme", b =>
@@ -437,7 +440,7 @@ namespace AnimeList.Migrations
 
                     b.HasIndex("MediaThemesId");
 
-                    b.ToTable("AnimeModelTheme", (string)null);
+                    b.ToTable("AnimeModelTheme");
                 });
 
             modelBuilder.Entity("CharacterModelVoiceActor", b =>
@@ -452,7 +455,7 @@ namespace AnimeList.Migrations
 
                     b.HasIndex("VoiceActorsId");
 
-                    b.ToTable("CharacterModelVoiceActor", (string)null);
+                    b.ToTable("CharacterModelVoiceActor");
                 });
 
             modelBuilder.Entity("AnimeList.Models.CharacterModel", b =>
