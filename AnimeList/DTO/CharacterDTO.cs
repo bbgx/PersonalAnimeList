@@ -6,6 +6,7 @@
         public int AnimeId { get; set; }
         public string? Name { get; set; }
         public string? Role { get; set; }
+        public string? CharacterImage { get; set; }
         public List<VoiceActorDTO>? VoiceActors { get; set; }
     }
 }
